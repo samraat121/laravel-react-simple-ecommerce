@@ -1,50 +1,67 @@
 import React, {useState} from 'react'
+import {useHistory} from 'react-router-dom'
 
 function Registration() {
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const history = useHistory();
+
+    async function signUp(event) {
+        event.preventDefault();
+
+        let item = {name,email,password}
+        // console.log(item)
+        let result = await fetch("http://localhost:8000/api/user", {
+            method: 'POST',
+            body:JSON.stringify(item),
+            headers:{
+                "Content-Type": 'application/json',
+                "Accept": 'application/json'
+            }
+        })
+        // result = await result.json() //atai real code kintu error ase dekhe 2nd ways
+        // localStorage.setItem('user-info', JSON.stringify(result))
+        localStorage.setItem('user-info', JSON.stringify(item))
+        history.push('/')
+
+     };
 
     return (
         <div>
-            <div class="container">
-                <div class="row justify-content-center mt-5">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">Registration</div>
+            <div className="container">
+                <div className="row justify-content-center mt-5">
+                    <div className="col-md-8">
+                        <div className="card">
+                            <div className="card-header">Registration</div>
 
-                            <div class="card-body">
-                                <form method="POST" action="">
-                                    <div class="form-group row">
-                                        <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
-                                        <div class="col-md-6">
-                                            <input id="name" type="text" class="form-control" name="name" value={name} onChange={(e)=>{setName(e.target.value)}} />
+                            <div className="card-body">
+                                <form onSubmit={signUp}>
+                                    <div className="form-group row">
+                                        <label htmlFor="name" className="col-md-4 col-form-label text-md-right">Name</label>
+                                        <div className="col-md-6">
+                                            <input id="name" type="text" className="form-control" name="name" value={name} onChange={(e)=>{setName(e.target.value)}} />
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-                                        <div class="col-md-6">
-                                            <input id="email" type="email" class="form-control" name="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} />
+                                    <div className="form-group row">
+                                        <label htmlFor="email" className="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+                                        <div className="col-md-6">
+                                            <input id="email" type="email" className="form-control" name="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} />
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-                                        <div class="col-md-6">
-                                            <input id="password" type="password" class="form-control" name="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} />
+                                    <div className="form-group row">
+                                        <label htmlFor="password" className="col-md-4 col-form-label text-md-right">Password</label>
+                                        <div className="col-md-6">
+                                            <input id="password" type="password" className="form-control" name="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} />
                                         </div>
                                     </div>
                                     
-                                    <div class="form-group row">
-                                        <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
-                                        <div class="col-md-6">
-                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" value={password} onChange={(e)=>{setPassword(e.target.value)}} />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mb-0">
-                                        <div class="col-md-8 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">Register</button>
+                                    <div className="form-group row mb-0">
+                                        <div className="col-md-8 offset-md-4">
+                                            <button type="submit" className="btn btn-primary">Register</button>
                                         </div>
                                     </div>
                                 </form>
